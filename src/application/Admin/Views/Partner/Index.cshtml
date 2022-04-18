@@ -1,0 +1,32 @@
+﻿<div class="content-header py-2">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-6">
+                <h1 class="m-0">Đối tác</h1>
+            </div>
+            <div class="col-6">
+                <ol class="breadcrumb float-right">
+                    <li class="breadcrumb-item"><a href="#">Đối tác</a></li>
+                    <li class="breadcrumb-item active">Danh sách</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="content">
+    <div class="container-fluid">
+        <div class="control-section">
+            <ejs-grid id="Grid" dataSource="ViewBag.DataSource" allowPaging="true" >
+                <e-grid-pagesettings pageCount="20"></e-grid-pagesettings>
+                <e-grid-columns>
+                    <e-grid-column field="Id" headerText="Mã" textAlign="Left" width="120"></e-grid-column>
+                    <e-grid-column field="Name" headerText="Tên" textAlign="Left" width="120"></e-grid-column>
+                    <e-grid-column field="Email" headerText="Email" textAlign="Left" width="120"></e-grid-column>
+                    <e-grid-column field="Phone" headerText="Điện thoại" textAlign="Left" width="120"></e-grid-column>
+                    <e-grid-column field="Website" headerText="Website" textAlign="Left" width="120"></e-grid-column>
+                    <e-grid-column field="IPNUrl" headerText="IPN" textAlign="Left" width="120"></e-grid-column>
+                </e-grid-columns>
+            </ejs-grid>
+        </div>    
+    </div>
+</section>

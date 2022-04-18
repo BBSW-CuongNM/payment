@@ -1,0 +1,104 @@
+﻿@{
+    ViewData["Title"] = "Danh sách nơi thanh toán";
+}
+@model IEnumerable<Shared.ViewModels.PaymentDestinationViewModel>
+<div class="content-header py-2">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-6">
+                <h1 class="m-0">Nơi thanh toán</h1>
+            </div>
+            <div class="col-6">
+                <ol class="breadcrumb float-right">
+                    <li class="breadcrumb-item"><a href="#">Nơi thanh toán</a></li>
+                    <li class="breadcrumb-item active">Danh sách</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="content">
+    <div class="container-fluid">
+         <div class="control-section">
+            <ejs-grid id="Grid" dataSource= "Model" allowPaging="true" actionComplete ="actionComplete" toolbar="@(new List<string>() { "Add", "Edit", "Delete", "Update", "Cancel" })"  height="600px">
+                 <e-grid-editSettings allowAdding="true" allowDeleting="true" allowEditing="true" mode="Dialog"></e-grid-editSettings>
+                <e-grid-pagesettings pageCount="20" pageSize="10" ></e-grid-pagesettings>
+                    <e-grid-columns>
+                        <e-grid-column field="Id" headerText="Mã" textAlign="Left" width="120"></e-grid-column>
+                        <e-grid-column field="ExternalId" headerText="Tham chiếu" textAlign="Left" width="150"></e-grid-column>
+                        <e-grid-column field="Group" headerText="Nhóm" textAlign="Left" width="130"></e-grid-column>
+                        <e-grid-column field="ParentId" headerText="Parent" textAlign="Left" width="120"></e-grid-column>
+                        <e-grid-column field="Name" headerText="Tên"  textAlign="Left" width="140"></e-grid-column>
+                        <e-grid-column field="OtherName" headerText="Tên khác" textAlign="Left" width="150"></e-grid-column>
+                        <e-grid-column field="SortIndex" headerText="Thứ tự"  textAlign="Left" width="150"></e-grid-column>
+                        <e-grid-column field="PartnerId" headerText="Mã đối tác" textAlign="Left" width="150"></e-grid-column>
+                        <e-grid-column field="Image"  headerText="Hình ảnh" template="#column-image-template" textAlign="Left" width="150"></e-grid-column>
+                    </e-grid-columns>
+            </ejs-grid>
+        </div>    
+    </div>
+</section>
+ <script id='dialogtemplate' type="text/x-template">
+        <div id="dialogTemp">
+        </div>
+    </script>
+<script id="column-image-template" type="text/x-template">
+    <div class="grid-custom-image">       
+        <img src="@Url.Content("${Image}")" alt="${Name}" />
+    </div>
+</script>
+<script type="text/javascript">
+function actionComplete(args) {
+    console.log(args.requestType);
+    if (args.requestType === 'beginEdit' || args.requestType === 'add') { 
+            let spinner = ej.popups.createSpinner({ target: args.dialog.element }); 
+            ej.popups.showSpinner(args.dialog.element); 
+            if (args.requestType === 'beginEdit') { 
+ 
+                var ajax = new ej.base.Ajax({ 
+                    type: "POST", 
+                    url: "@Url.Action("Update", "PaymentDestination")",                   
+                    contentType: "application/json", 
+                    dataType: 'json', 
+                    data: JSON.stringify({ value: args.rowData }) 
+                }); 
+                ajax.send().then(function (data) { 
+                    appendElement(data, args.form); 
+                    args.form.elements.namedItem('Id').focus(); 
+                    ej.popups.hideSpinner(args.dialog.element); 
+                }).catch(function (xhr) { 
+                    console.log(xhr); 
+                    ej.popups.hideSpinner(args.dialog.element); 
+                }); 
+            } 
+ 
+            if (args.requestType === 'add') { 
+                var ajax = new ej.base.Ajax({ 
+                    type: "POST", 
+                    url: "@Url.Action("Create", "PaymentDestination")",                   
+                    contentType: "application/json", 
+                    dataType: 'json' 
+                }); 
+                ajax.send().then(function (data) { 
+                    $("#dialogTemp").html(data); 
+                    args.form.elements.namedItem('Id').focus(); 
+                    ej.popups.hideSpinner(args.dialog.element); 
+                }).catch(function (xhr) { 
+                    console.log(xhr); 
+                    ej.popups.hideSpinner(args.dialog.element); 
+                }); 
+            } 
+        } 
+}
+  function appendElement(elementString, form) {
+            form.querySelector("#dialogTemp").innerHTML = elementString;
+            form.ej2_instances[0].addRules('ExternalId', { required: true }); 
+            form.ej2_instances[0].refresh();  // refresh method of the formObj
+            var script = document.createElement('script');
+            script.type = "text/javascript";
+            var serverScript = form.querySelector("#dialogTemp").querySelector('script');
+            script.textContent = serverScript.innerHTML;
+            document.head.appendChild(script);
+            serverScript.remove();
+        }
+</script>

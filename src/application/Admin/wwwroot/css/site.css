@@ -1,0 +1,66 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+.logo {
+    border: 1px solid forestgreen;
+    padding: 5px;
+}
+
+.nav-link-active {
+    color: #28A745 !important;
+}
+
+#login-body {
+    background-image: url('/images/garment-background.jpg');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+#login-body::before {
+    position: absolute;
+    background-color: black;
+    content: '';
+    opacity: 0.5;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+
+/*
+    Custom for devextrem
+*/
+.grid-custom-header[role="columnheader"] {
+    font-size: 17px;
+    color: black;
+    font-weight: bold;
+}
+
+/* Tes custom syncfusion*/
+.e-grid .e-headercell {
+    color: darkblue;
+}
+
+.e-grid .e-headercelldiv {
+    font-size: 15px;
+}
+
+.grid-custom-image img {
+    height: 55px;
+    width: 55px;
+    border-radius: 50px;
+    box-shadow: inset 0 0 1px #e0e0e0, inset 0 0 14px rgba(0, 0, 0, 0.2);
+}
